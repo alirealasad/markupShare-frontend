@@ -13,6 +13,19 @@
     </div>
 
     <div class="input-group mb-3">
+      <input type="text" class="form-control" v-model="seachValue" />
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        id="button-addon2"
+        @click="search()"
+      >
+        search
+      </button>
+    </div>
+    <p>{{this.index}}</p>
+
+    <div class="input-group mb-3">
       <input type="text" class="form-control" v-model="line" />
       <button
         class="btn btn-outline-secondary"
@@ -32,6 +45,7 @@
       >
         Unfilter
       </button>
+
     </div>
     <div class="text-danger" v-if="errored">
       {{ error }}
@@ -83,7 +97,9 @@ export default {
       token: "",
       isfiltered: false,
       values: [],
-      error: ""
+      error: "",
+      seachValue:"",
+      index:0
     };
   },
   methods: {
@@ -95,6 +111,9 @@ export default {
     },
     saveToken() {
       localStorage.setItem("token", this.token);
+    },
+    search(){
+      this.index = this.values.findIndex(value => value.includes(this.seachValue))+1;
     },
     fetch() {
       if (this.token) {
